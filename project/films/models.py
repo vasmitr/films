@@ -1,5 +1,14 @@
 from django.db import models
 
+STARS = (
+    (0, "Нет оценки"),
+    (1, "Плохо"),
+    (2, "Сойдет"),
+    (3, "Средне"),
+    (4, "Неплохо"),
+    (5, "Круто")
+)
+
 class Tag(models.Model):
     name = models.CharField(max_length=200)
 
@@ -11,17 +20,7 @@ class Tag(models.Model):
         return self.name
 
     
-class Film(models.Model):
-
-    STARS = (
-        (0, "Нет оценки"),
-        (1, "Плохо"),
-        (2, "Сойдет"),
-        (3, "Средне"),
-        (4, "Неплохо"),
-        (5, "Круто")
-    )
-    
+class Film(models.Model):  
     name = models.CharField(max_length=200)
     rating = models.IntegerField(choices=STARS, default=0)
     image = models.ImageField()

@@ -12,7 +12,6 @@ class Seat(models.Model):
     reserved = models.BooleanField(default=False)
 
     class Meta:
-        unique_together = ('number', 'seance')
         verbose_name = "Место"
         verbose_name_plural = "Места"
 
@@ -42,10 +41,16 @@ class Ticket(models.Model):
         verbose_name_plural = "Билеты"
 
     def __str__(self):
-        return "Билет № %d" % self.id
-
-    def count_price(self):
-        pass
+        if self.pk:
+            return "Билет № %d" % self.pk
+        return "Билет"
     
     def reserve(self):
-        pass
+        for seat in self.seat.all():
+            seat.reserved = True
+            seat.save()
+
+    def delete(self):
+        for seat in self.seat.all():
+            seat.reserved = False
+            seat.save()
